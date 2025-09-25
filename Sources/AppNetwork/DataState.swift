@@ -7,13 +7,16 @@
 
 
 /// Enum for managing various view states.
-public enum ViewState<Content>: Equatable {
-    public static func == (lhs: ViewState, rhs: ViewState) -> Bool {
+public enum DataState<Content>: Equatable {
+    public static func == (lhs: DataState, rhs: DataState) -> Bool {
         lhs.id == rhs.id
     }
     
     /// State for view that is currently loading data
     case loading
+    
+    /// State for view that is currently searching data
+    case searching
     
     /// State for view that has finished loading
     case loaded(Int?)
@@ -30,6 +33,8 @@ public enum ViewState<Content>: Equatable {
     public var id: Int {
         switch self {
         case .loading:
+            return 0
+        case .searching:
             return 1
         case .loaded:
             return 2

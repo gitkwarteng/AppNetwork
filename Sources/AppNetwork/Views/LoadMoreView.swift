@@ -9,12 +9,12 @@ import SwiftUI
 
 public struct LoadMoreView<State>: View {
     
-    @Binding var state: ViewState<State>
+    @Binding var state: DataState<State>
     @Binding var nextPage: Int?
     
     var loadMore:(() async -> Void)? = nil
     
-    public init(_ state: Binding<ViewState<State>>, page: Binding<Int?>, load loadMore: (() async -> Void)? = nil) {
+    public init(_ state: Binding<DataState<State>>, page: Binding<Int?>, load loadMore: (() async -> Void)? = nil) {
         self._state = state
         self._nextPage = page
         self.loadMore = loadMore

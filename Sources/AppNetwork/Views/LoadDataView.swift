@@ -8,9 +8,9 @@ public struct SimpleDataView<ContentData:Decodable, Content:View>: LoadData {
 
     @ViewBuilder public var content: (ContentData?) -> Content
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
     
-    public init(state: Binding<ViewState<ContentData>>, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
     }
@@ -24,9 +24,9 @@ public struct ErrorDataView<ContentData:Decodable, Content:View, ErrorView:View>
 
     @ViewBuilder public var content: (ContentData?) -> Content
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
 
-    public init(state: Binding<ViewState<ContentData>>, errorView:@escaping (Error) -> ErrorView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, errorView:@escaping (Error) -> ErrorView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
         self.errorView = errorView
@@ -40,9 +40,9 @@ public struct EmptyDataView<ContentData:Decodable, Content:View, EmptyDataView:V
     
     @ViewBuilder public var content: (ContentData?) -> Content
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
     
-    public init(state: Binding<ViewState<ContentData>>, emptyView:EmptyDataView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, emptyView:EmptyDataView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
         self.emptyView = emptyView
@@ -57,10 +57,10 @@ public struct ProgressDataView<ContentData:Decodable, Content:View, LoadingView:
     
     @ViewBuilder public var content: (ContentData?) -> Content
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
     
     
-    public init(state: Binding<ViewState<ContentData>>, loadingView:LoadingView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, loadingView:LoadingView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
         self.loadingView = loadingView
@@ -76,11 +76,11 @@ public struct EmptyProgressDataView<Content:View, LoadingView:View, ContentData:
     
     public var emptyView: EmptyDataView
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
     
     @ViewBuilder public var content:(ContentData?) -> Content
     
-    public init(state: Binding<ViewState<ContentData>>, loadingView:LoadingView, emptyView:EmptyDataView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, loadingView:LoadingView, emptyView:EmptyDataView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
         self.loadingView = loadingView
@@ -101,11 +101,11 @@ public struct CompleteDataView<Content:View, LoadingView:View, ContentData:Decod
     
     public var errorView: ((Error) -> ErrorView)
     
-    public var state: Binding<ViewState<ContentData>>
+    public var state: Binding<DataState<ContentData>>
     
     @ViewBuilder public var content:(ContentData?) -> Content
 
-    public init(state: Binding<ViewState<ContentData>>, loadingView:LoadingView, emptyView: EmptyDataView, errorView:@escaping (Error) -> ErrorView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
+    public init(state: Binding<DataState<ContentData>>, loadingView:LoadingView, emptyView: EmptyDataView, errorView:@escaping (Error) -> ErrorView, @ViewBuilder content: @escaping (ContentData?) -> Content) {
         self.state = state
         self.content = content
         self.loadingView = loadingView

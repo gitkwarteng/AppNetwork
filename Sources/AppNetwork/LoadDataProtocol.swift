@@ -17,12 +17,14 @@ public protocol LoadData: View {
     associatedtype LoadingView: View
     associatedtype EmptyDataView: View
     associatedtype ErrorView: View
+    associatedtype SearchingView: View
     
-    var state: Binding<ViewState<ContentData>> {get set }
+    var state: Binding<DataState<ContentData>> {get set }
     
     @ViewBuilder var content:(ContentData?) -> Content { get set }
     
-    func getProgressView() -> LoadingView
+    func getLoadingView() -> LoadingView
+    func getSearchingView() -> SearchingView
     func getEmptyView() -> EmptyDataView
     func getErrorView(_ error: Error) -> ErrorView
     
@@ -36,11 +38,16 @@ public extension LoadData {
         switch state.wrappedValue {
         case .loadedData(let data, _): content(data)
         case .loaded: content(nil)
+        case .searching: VStack(alignment: .center){content(nil)}.frame(maxWidth: .infinity, maxHeight: .infinity) .overlay(alignment:.center){getSearchingView()}
         default: getOtherStateView()
         }
     }
     
-    func getProgressView() -> some View {
+    func getLoadingView() -> some View {
+        ProgressView()
+    }
+    
+    func getSearchingView() -> some View {
         ProgressView()
     }
     
@@ -58,7 +65,7 @@ public extension LoadData {
         VStack(alignment: .center) {
             switch state.wrappedValue {
             case .loading:
-                getProgressView()
+                getLoadingView()
             case .error(let error):
                 getErrorView(error)
             case .empty:
@@ -83,8 +90,25 @@ public protocol LoadDataWithProgress: LoadData {
 
 public extension LoadDataWithProgress {
     
-    public func getProgressView() -> LoadingView {
+    public func getLoadingView() -> LoadingView {
         loadingView
+    }
+    
+}
+
+
+public protocol LoadDataWithSearch: LoadData {
+    
+    associatedtype SearchingView: View
+    
+    var searchingView: SearchingView {get set}
+    
+}
+
+public extension LoadDataWithSearch {
+    
+    public func getSearchingView() -> SearchingView {
+        searchingView
     }
     
 }
