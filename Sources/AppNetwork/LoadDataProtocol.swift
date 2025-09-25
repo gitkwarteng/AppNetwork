@@ -38,7 +38,7 @@ public extension LoadData {
         switch state.wrappedValue {
         case .loadedData(let data, _): content(data)
         case .loaded: content(nil)
-        case .searching: VStack(alignment: .center){content(nil)}.frame(maxWidth: .infinity, maxHeight: .infinity) .overlay(alignment:.center){getSearchingView()}
+        case .searching: VStack(alignment: .center){content(nil)}.frame(maxWidth: .infinity, maxHeight: .infinity) .overlay(alignment:.top){getSearchingView()}
         default: getOtherStateView()
         }
     }
